@@ -1,4 +1,6 @@
 # Entry points for this program
+from pytd.pytdutils.inputhandler import InputObject
+from pytd.src import pytdapp
 
 from ast import arg, parse
 import sys, os
@@ -14,31 +16,14 @@ def main ():
 
 	args = parser.parse_args()
 
-	if not (args.audio == args.video):
-		audio = bool (args.audio)
-		video = not audio
 
-	if audio:
-		print ("[X] Audio")
-	if video:
-		print ("[X] Video")
+	if args.version:
+		print ("Version: 0.0.0a")
+		exit () # exit program
 
-	if args.URLs:
-		for url in args.URLs:
+	inputObj = InputObject (args.URLs, args.audio, args.video, bool (args.current_dir))
+	pytdapp.run (inputObj)
 
-			print (' -> ', end= "")
-
-			if not "youtu" in url:
-				print ("===INVALID===", end= " - ")
-			else:
-				print ("    VALID    ", end= " - ")
-
-			print (url)
-
-	if args.current_dir:
-		print ("Saved to: ", os.getcwd())
-	else:
-		print ("Saved to default download directory", )
 
 
 def create_parser(parser: argparse.ArgumentParser):
@@ -57,6 +42,10 @@ def create_parser(parser: argparse.ArgumentParser):
 	prs.add_argument('-d', '--current-dir', action="store_true",
 					help = """Set flag to download to current working directory. 
 					When flag aren't set, files will be saved to default download dir""")
+
+	# Version Flag
+	prs.add_argument('--version', action="store_true",
+					help = "Get version of pytd")
 
 	# URLs Positional Arguments
 	prs.add_argument('URLs', nargs='*', type=str,
