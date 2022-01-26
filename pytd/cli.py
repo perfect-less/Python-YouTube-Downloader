@@ -8,9 +8,6 @@ import argparse
 
 def main ():
 
-	audio = True
-	video = True
-
 	parser = argparse.ArgumentParser()
 	parser = create_parser(parser)
 
@@ -20,6 +17,7 @@ def main ():
 	if args.version:
 		print ("Version: 0.0.0a")
 		exit () # exit program
+		
 
 	inputObj = InputObject (args.URLs, args.audio, args.video, bool (args.current_dir))
 	pytdapp.run (inputObj)
