@@ -5,9 +5,10 @@ from pytd.pytdutils.inputhandler import InputObject, InputToMedia
 from pytd.pytdutils.postprocess import postprocessor
 from pytd.pytdutils.media import Media
 from pytd.pytdutils import downloader
-from pytd.pytdutils import selector 
+from pytd.pytdutils import selector
+from pytd.pytdutils.pytdout.oman import OutputManager 
 
-def run(inputObj: InputObject):
+def run(inputObj: InputObject, outputObject: OutputManager):
 
     print ("Begin")
 

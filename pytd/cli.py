@@ -1,5 +1,6 @@
 # Entry points for this program
 from pytd.pytdutils.inputhandler import InputObject
+from pytd.pytdutils.pytdout.oman import OutputManager
 from pytd.src import pytdapp
 
 from ast import arg, parse
@@ -8,6 +9,10 @@ import argparse
 
 def main ():
 
+	# Create Output Manager
+	outputObj = OutputManager ()
+
+	# Parsing Arguments
 	parser = argparse.ArgumentParser()
 	parser = create_parser(parser)
 
@@ -18,9 +23,9 @@ def main ():
 		print ("Version: 0.0.0a")
 		exit () # exit program
 		
-
+	# Send input and output manager and start the program
 	inputObj = InputObject (args.URLs, args.audio, args.video, bool (args.current_dir))
-	pytdapp.run (inputObj)
+	pytdapp.run (inputObj, outputObj)
 
 
 
