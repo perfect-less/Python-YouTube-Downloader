@@ -1,6 +1,7 @@
 from inspect import getmodule
 from pytd.pytdutils.media import Media
 from typing import List
+from pytd.pytdutils.pytdout.oman import OutputManager
 from pytd.settings import pytdsettings
 
 import os
@@ -34,7 +35,7 @@ class InputObject:
         return pytdsettings.GetDefaultFilePath()
 
 # Convert Input Object Into Media Object
-def InputToMedia(inputObj: InputObject) -> List[Media]:
+def InputToMedia(inputObj: InputObject, outputObject: OutputManager) -> List[Media]:
 
     medias: List[Media] = list ()
 

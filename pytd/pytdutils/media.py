@@ -1,3 +1,4 @@
+from statistics import mode
 from pytd.pytdutils.downloader import DownloadObject
 from typing import List
 
@@ -12,6 +13,9 @@ class Media:
         self.downPath: str = download_path
 
         self.videoTitle = ''
+        self.errorMessage = ''
+
+        self.garbageList: List[str] = list ()
 
     def DownloadMedia(self):
         
@@ -27,6 +31,27 @@ class Media:
 
     def SetFileName(self, fname: str):
         self.filename_path = self.downPath + '/' + fname
+
+    def GetErrorMessage (self) -> str:
+        return self.errorMessage
+
+    def GetPostProcessTypeName (self) -> str:
+        
+        if (mode == 'both'):
+            return 'Merging'
+        else:
+            return 'Converting'
+
+    def AddGarbageList (self, new_garbage_file: str):
+        self.garbageList.append (new_garbage_file)
+
+    def RemoveFromGarbageList (self, path_to_file: str):
+        self.garbageList.remove (path_to_file)
+
+    def DeleteGarbage(self):
+        pass
+
+        # Delete All File self.garbageList
 
 
     

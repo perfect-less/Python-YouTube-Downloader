@@ -64,7 +64,7 @@ state = 'selectstream'
 )
 
 ## Downloading
-selectstream_temp = OTemplate (
+downloading_temp = OTemplate (
     
 HEADER_TEXT, 
 SUBHEADER_TEXT,
@@ -79,7 +79,7 @@ state = 'downloading'
 )
 
 ## Final Output
-selectstream_temp = OTemplate (
+finaloutput_temp = OTemplate (
     
 HEADER_TEXT, 
 SUBHEADER_TEXT,
@@ -89,7 +89,7 @@ SUBHEADER_TEXT,
 """Status:
   Download directory -> {downdir}""",
 
-state = 'downloading'
+state = 'finaloutput'
 
 )
 

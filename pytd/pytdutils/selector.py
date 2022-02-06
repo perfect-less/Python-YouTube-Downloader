@@ -1,12 +1,13 @@
 from pytube import YouTube, Stream
 from pytd.pytdutils.media import Media
 from pytd.pytdutils.downloader import DownloadObject, AudioDownloadObject, VideoDownloadObject
+from pytd.pytdutils.pytdout.oman import OutputManager
 
 
-def Select(media: Media) -> None:
+def Select(media: Media, outObject: OutputManager) -> bool:
 
     # Geting YouTube object and Setting media Critical Media Value
-    yt = YouTube (media.url)
+    yt = YouTube (media.url, outObject.onProcessFunc, outObject.onCompleteFunc)
     media.SetVideoTitle (yt.title)
     media.SetFileName (yt.streams.get_highest_resolution().default_filename)
 
