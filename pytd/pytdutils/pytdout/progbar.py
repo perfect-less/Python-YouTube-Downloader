@@ -1,14 +1,15 @@
+from operator import length_hint
 from pytube import Stream
 from math import floor
-import os
+import os, re
 
 def TwoColumnsText(firstColumn: str, secondColumn: str, primary = 'right', sep = ' - '):
 
     width = os.get_terminal_size ().columns
     maxColumnLength = floor (.75 * width)
 
-    leftLength      = len (firstColumn) 
-    rightLength     = len (secondColumn)
+    leftLength      = CalculateWidth (firstColumn) 
+    rightLength     = CalculateWidth (secondColumn)
     separatorLength = len (sep) 
     padding = max (width - rightLength - separatorLength - leftLength, 0)
 
@@ -28,16 +29,22 @@ def TwoColumnsText(firstColumn: str, secondColumn: str, primary = 'right', sep =
         rightLength = width - leftLength - separatorLength
         secondColumn = TruncateColumn (secondColumn, rightLength) + ' ' * padding
 
-    return firstColumn + secondColumn
+    return firstColumn + sep + secondColumn
 
         
 
 def TruncateColumn(column: str, truncated_length: int):
 
-    if len (column) > truncated_length:
-        column = column[:(truncated_length - 3)] + '...' 
+    suffix = ''
+    initial_length = CalculateWidth (column)
+    
+    if initial_length > truncated_length:
 
-    return column
+        suffix = '...'
+        while (CalculateWidth (column) > (truncated_length - 3)):
+            column = column[:(len (column) - 1)] 
+
+    return column + suffix
 
 
 
@@ -50,3 +57,13 @@ def ProgressBar (prog= 0, total_prog= 100, length= 20, prefix= 'Downloading Vide
     bar = f'|{filled_bar}{unfilled_bar}|'
 
     return prefix + bar + suffix
+
+
+def CalculateWidth (text: str):
+    length = len (text)
+
+    ascii_list = re.findall (r'[\u0000-\u007f]+', text)
+    non_ascii_num = length - len ( ''.join (ascii_list) )
+
+    return length + non_ascii_num
+

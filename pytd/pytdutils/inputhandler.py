@@ -1,10 +1,14 @@
-from inspect import getmodule
-from pytd.pytdutils.media import Media
+from pytube import YouTube
 from typing import List
+
+from pytd.pytdutils.media import Media
 from pytd.pytdutils.pytdout.oman import OutputManager
+from pytd.pytdutils.pytdout.omanstate import OManState
 from pytd.settings import pytdsettings
 
 import os
+
+
 
 # Input Object Classs, used to stored Input Data
 class InputObject:
@@ -42,7 +46,12 @@ def InputToMedia(inputObj: InputObject, outputObject: OutputManager) -> List[Med
     for url in inputObj.URLs:
         
         new_media = Media (url, inputObj.mode, inputObj.file_path)
+        outputObject.report.beginProcess (OManState.processinginput, new_media)
+
+        new_media.SetVideoTitle (YouTube(url).title)
         medias.append (new_media)
+
+        outputObject.report.finishedProcess (OManState.processinginput, new_media)
 
     return medias
     

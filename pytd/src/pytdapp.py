@@ -1,6 +1,4 @@
-from sys import exec_prefix
 from typing import List
-from unittest import expectedFailure
 
 from pytd.pytdutils.downloader import DownloadObject, AudioDownloadObject, VideoDownloadObject
 from pytd.pytdutils.inputhandler import InputObject, InputToMedia
@@ -8,47 +6,52 @@ from pytd.pytdutils.postprocess import postprocessor
 from pytd.pytdutils.media import Media
 from pytd.pytdutils import downloader
 from pytd.pytdutils import selector
-from pytd.pytdutils.pytdout.oman import OutputManager 
+from pytd.pytdutils.pytdout.oman import OManState, OutputManager 
 
 def run(inputObj: InputObject, outputObject: OutputManager):
 
-    print ("Begin")
-
     # Turn Input object to Media objects
-    outputObject.InitProcessingInput ()
+    outputObject.report.InitProcessingInput ()
     mediaList: List[Media] = InputToMedia (inputObj, outputObject)
     activeMediaList = mediaList.copy ()
 
     # Select Streams
-    outputObject.InitSelectStream ()
+    outputObject.report.InitSelectStream ()
     for media in mediaList:
+        outputObject.report.beginProcess (OManState.selectstream, media)
 
         try:
-            selector.Select (media)
+            selector.Select (media, outputObject)
         except:
             activeMediaList.remove (media)
+        finally:
+            outputObject.report.finishedProcess (OManState.selectstream, media)
 
 
     # Download and Process
-    outputObject.InitDownloading ()
+    outputObject.report.InitDownloading ()
     for media in activeMediaList:
+        outputObject.report.beginProcess (OManState.downloading, media)
 
         try:
             media.DownloadMedia ()
         except:
             activeMediaList.remove (media)
+            outputObject.report.finishedProcess (OManState.downloading, media)
             continue
+            
         
-        outputObject.beginPostProcess (media)
+        outputObject.beginPostProcess ()
         try:
             postprocessor.Post (media)
         except:
             activeMediaList.remove (media)
-            continue
+            outputObject.report.finishedProcess (OManState.downloading, media)
+
+        outputObject.report.finishedProcess (OManState.downloading, media)
 
     # Done 
-    outputObject.InitFinalOutput ()
-    print ("Done")
+    outputObject.report.InitFinalOutput ()
         
 
     

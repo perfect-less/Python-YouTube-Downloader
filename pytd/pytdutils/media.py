@@ -37,7 +37,7 @@ class Media:
 
     def GetPostProcessTypeName (self) -> str:
         
-        if (mode == 'both'):
+        if (self.mode == 'both'):
             return 'Merging'
         else:
             return 'Converting'

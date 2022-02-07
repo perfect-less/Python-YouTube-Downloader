@@ -40,6 +40,9 @@ class Canvas:
     
     def dropBlocks(self, block: TextBlock):
         self.textBlocks.remove (block)
+
+    def emptyBlocks(self):
+        self.textBlocks.clear()
     
 
 def clearScreen ():

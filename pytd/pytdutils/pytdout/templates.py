@@ -16,7 +16,7 @@ class OTemplate:
 
 
 HEADER_TEXT     = """pytd - {version}""".format (version = __version__)
-SUBHEADER_TEXT  = """Simple YouTube Downloader made using pytube"""
+SUBHEADER_TEXT  = """Simple YouTube Downloader made using pytube \n"""
 
 ## Parsing
 parsing_temp = OTemplate (

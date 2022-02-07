@@ -1,21 +1,16 @@
-from email.mime import audio
 from math import floor
-from sys import prefix
 from typing import List
 from pytube import Stream
-from pytd.pytdutils import media
 from pytd.pytdutils.media import Media
-from pytd.pytdutils.pytdout.textblock import TextBlock
-from pytd.pytdutils.pytdout.oman import OutputManager, OManState
+from pytd.pytdutils.pytdout.omanstate import OManState
 from pytd.pytdutils.pytdout.progbar import TwoColumnsText, ProgressBar
 from pytd.pytdutils.pytdout.templates import OTemplate
 
 
 class BodyTextBuilder:
 
-    def __init__(self, state: OManState , oman: OutputManager, template: OTemplate) -> None:
+    def __init__(self, state: OManState, template: OTemplate) -> None:
         self.state = state
-        self.oman = oman
         self.template = template
 
         self.lines: List[str] = list ()
@@ -26,9 +21,9 @@ class BodyTextBuilder:
         self.currentLine = ''
 
         if   (self.state == OManState.parsing):
-            self.currentLine = TwoColumnsText ('..parsing '         , self.media.videoTitle, primary= 'left')
+            self.currentLine = ' ..'
         elif (self.state == OManState.processinginput):
-            self.currentLine = TwoColumnsText ('..processing '      , self.media.videoTitle, primary= 'left')
+            self.currentLine = TwoColumnsText ('..processing url '  , self.media.url, primary= 'left')
         elif (self.state == OManState.selectstream):
             self.currentLine = TwoColumnsText ('..selecting stream ', self.media.videoTitle, primary= 'left')
         elif (self.state == OManState.finaloutput):
@@ -36,7 +31,7 @@ class BodyTextBuilder:
 
     def finalizeLine (self):
 
-        self.currentLine = TwoColumnsText ('DONE', self.media.videoTitle, primary= 'left')
+        self.currentLine = TwoColumnsText (self.media.videoTitle, '===DONE===', primary= 'right')
 
         # Error Check
         if (self.media.GetErrorMessage () != '' ):

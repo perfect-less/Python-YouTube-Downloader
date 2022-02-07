@@ -20,8 +20,8 @@ def Select(media: Media, outObject: OutputManager) -> bool:
     videoDownObj = VideoDownloadObject (videoSteram, media.downPath)
 
     # Append to media 
-    media.AddDownloadObject (audioDownObj)
     media.AddDownloadObject (videoDownObj)
+    media.AddDownloadObject (audioDownObj)
 
 
 
