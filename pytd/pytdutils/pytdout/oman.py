@@ -1,3 +1,4 @@
+from typing import List
 from pytd.pytdutils.pytdout.bodytext import BodyTextBuilder
 from pytd.pytdutils.pytdout.statustext import StatusTextBuilder
 from pytd.pytdutils.pytdout.textblock import BodyBlock, HeaderBlock, TextBlock
@@ -84,6 +85,14 @@ class OutputManager:
         self.statusTextBuilder.update ()
         self.update ()
 
+    
+    def ShowFinalOutput(self, mediaList: List[Media]):
+        self.report.InitFinalOutput ()
+
+        for media in mediaList:    
+            self.report.beginProcess (OManState.finaloutput, media)
+            self.report.finishedProcess (OManState.finaloutput, media)
+
 
 
 
@@ -143,6 +152,5 @@ def ChooseTemplate (state: OManState):
         selectedTemplate: templates.OTemplate = templates.finaloutput_temp
 
     return selectedTemplate
-
 
 

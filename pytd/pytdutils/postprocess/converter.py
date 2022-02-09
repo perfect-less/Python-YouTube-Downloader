@@ -13,4 +13,10 @@ def ConvertAudio(media: Media):
     mp3_file = media.downObjects[0].file_path.removesuffix('.mp4') + '.mp3'
 
     convert_cmd = 'ffmpeg -i {} -b:a 128K -vn {}'.format(mp4_file, mp3_file)
-    subprocess.call (convert_cmd, shell= False)
+    
+    try:
+        subprocess.call (convert_cmd, shell= True, stdout= subprocess.DEVNULL, stderr= subprocess.STDOUT)
+    except:
+        media.AddGarbageList (mp3_file)
+
+

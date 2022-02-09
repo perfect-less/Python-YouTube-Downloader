@@ -23,6 +23,9 @@ class DownloadObject:
         new_filename = self.DetermineFilename()
         return download_path + '/' + new_filename
 
+    def GetFilePath (self):
+        return self.file_path
+
 
 class AudioDownloadObject (DownloadObject):
 

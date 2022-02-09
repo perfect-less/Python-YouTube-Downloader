@@ -26,6 +26,7 @@ class Media:
     def AddDownloadObject(self, newDownloadObject: DownloadObject):
         
         self.downObjects.append(newDownloadObject)
+        self.AddGarbageList (newDownloadObject.GetFilePath ())
     
     def SetVideoTitle(self, title: str):
         self.videoTitle = title
@@ -51,6 +52,9 @@ class Media:
 
     def RemoveFromGarbageList (self, path_to_file: str):
         self.garbageList.remove (path_to_file)
+
+    def GetGarbageList (self):
+        return self.garbageList
 
     def DeleteGarbage(self):
         pass

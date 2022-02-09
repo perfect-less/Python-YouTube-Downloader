@@ -1,6 +1,8 @@
+import imp
 from typing import List
 
 from pytd.pytdutils.inputhandler import InputObject, InputToMedia
+from pytd.pytdutils.garbagecleaner import CleanGarbage
 from pytd.pytdutils.postprocess import postprocessor
 from pytd.pytdutils.media import Media
 from pytd.pytdutils import selector
@@ -49,20 +51,12 @@ def run(inputObj: InputObject, outputObject: OutputManager):
         outputObject.report.finishedProcess (OManState.downloading, media)
 
     # Cleanning Up
-    # outputObject.report.InitCleaningUp ()
-    # for media in mediaList:
-    #     pass
-    #     outputObject.report.beginProcess (OManState.cleaningup, media)
-
-    #     #
-    #     # Doing Cleanning up
-        
-
-    #     outputObject.report.finishedProcess (OManState.cleaningup, media)
+    outputObject.report.InitCleaningUp ()
+    CleanGarbage (outputObject, mediaList)       
 
 
     # Done 
-    outputObject.report.InitFinalOutput ()
+    outputObject.ShowFinalOutput (mediaList)
         
 
     
