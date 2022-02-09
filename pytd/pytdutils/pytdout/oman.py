@@ -1,4 +1,5 @@
 from pytd.pytdutils.pytdout.bodytext import BodyTextBuilder
+from pytd.pytdutils.pytdout.statustext import StatusTextBuilder
 from pytd.pytdutils.pytdout.textblock import BodyBlock, HeaderBlock, TextBlock
 from pytd.pytdutils.pytdout.omanstate import OManState
 from pytd.pytdutils.pytdout.writer import Canvas
@@ -21,7 +22,9 @@ class OutputManager:
         self.report = Report (self)
         self.canvas = self.CreateCanvas ()
         self.o_template = ChooseTemplate (self.state)
+
         self.bodyTextBuilder: BodyTextBuilder = BodyTextBuilder (self.state, self.o_template)
+        self.statusTextBuilder: StatusTextBuilder = StatusTextBuilder (self.state, self.o_template)
 
 
     def CreateCanvas(self):
@@ -34,16 +37,9 @@ class OutputManager:
 
         return new_canvas
         
-    def PopulateCanvasBlock (self):
-        self.canvas.addBlocks (self.header)
-        self.canvas.addBlocks (self.subheader)
-        self.canvas.addBlocks (self.body)
-        self.canvas.addBlocks (self.status)
 
     def UpdateCanvas (self):
 
-        self.canvas.emptyBlocks ()
-        self.PopulateCanvasBlock ()
         self.canvas.update ()
 
 
@@ -53,6 +49,8 @@ class OutputManager:
 
         del self.bodyTextBuilder
         self.bodyTextBuilder = BodyTextBuilder (self.state, self.o_template)
+        del self.statusTextBuilder
+        self.statusTextBuilder = StatusTextBuilder (self.state, self.o_template)
 
         self.update ()
 
@@ -69,11 +67,12 @@ class OutputManager:
         self.header.text = self.o_template.header_text
         self.subheader.text = self.o_template.subheader_text
         self.body.text = self.bodyTextBuilder.build ()
-        self.status.text = ''
+        self.status.text = self.statusTextBuilder.build ()
 
 
     def onProcessFunc(self, stream: Stream, chunk: bytes, bytes_remaining: int):
         self.bodyTextBuilder.updateBar (stream, chunk, bytes_remaining)
+        self.statusTextBuilder.update ()
         self.update ()
 
     def onCompleteFunc (self, stream: Stream, file_path: str):
@@ -82,6 +81,7 @@ class OutputManager:
 
     def beginPostProcess (self):
         self.bodyTextBuilder.beginPostProcess ()
+        self.statusTextBuilder.update ()
         self.update ()
 
 
@@ -94,6 +94,7 @@ class Report:
 
     def beginProcess (self, state: OManState, media: Media):
         self.oman.bodyTextBuilder.beginLine (media)
+        self.oman.statusTextBuilder.update (media)
         self.oman.update ()
 
     def finishedProcess (self, state: OManState, media: Media, status: str = ''):
@@ -112,6 +113,9 @@ class Report:
     
     def InitDownloading (self):
         self.oman.ChangeState (OManState.downloading)
+
+    def InitCleaningUp (self):
+        self.oman.ChangeState (OManState.cleaningup)
 
     def InitFinalOutput (self):
         self.oman.ChangeState (OManState.finaloutput)

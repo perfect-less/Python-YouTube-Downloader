@@ -1,6 +1,7 @@
 from math import floor
 from typing import List
 from pytube import Stream
+
 from pytd.pytdutils.media import Media
 from pytd.pytdutils.pytdout.omanstate import OManState
 from pytd.pytdutils.pytdout.progbar import TwoColumnsText, ProgressBar
@@ -10,24 +11,19 @@ from pytd.pytdutils.pytdout.templates import OTemplate
 class BodyTextBuilder:
 
     def __init__(self, state: OManState, template: OTemplate) -> None:
+        
         self.state = state
         self.template = template
 
         self.lines: List[str] = list ()
         self.currentLine: str = ''
 
-    def beginLine (self, media: Media):
-        self.media = media
-        self.currentLine = ''
 
-        if   (self.state == OManState.parsing):
-            self.currentLine = ' ..'
-        elif (self.state == OManState.processinginput):
-            self.currentLine = TwoColumnsText ('..processing url '  , self.media.url, primary= 'left')
-        elif (self.state == OManState.selectstream):
-            self.currentLine = TwoColumnsText ('..selecting stream ', self.media.videoTitle, primary= 'left')
-        elif (self.state == OManState.finaloutput):
-            self.currentLine = TwoColumnsText ('..cleaning up '     , self.media.videoTitle, primary= 'left') 
+    def beginLine (self, media: Media):
+
+        self.media = media
+        self.currentLine = NewLineText (self.state , self.media)
+        
 
     def finalizeLine (self):
 
@@ -40,6 +36,7 @@ class BodyTextBuilder:
 
         self.lines.append (self.currentLine)
 
+
     def build (self) -> str:
         text = ''
 
@@ -48,6 +45,7 @@ class BodyTextBuilder:
 
         text += self.currentLine + '\n'
         return text
+
 
     # Download bar functions
     def updateBar (self, stream: Stream, chunk: bytes, bytes_remaining: int):
@@ -63,10 +61,30 @@ class BodyTextBuilder:
             return
         
         postprocess_msg = self.media.GetPostProcessTypeName()
-        self.currentLine = TwoColumnsText (self.media.videoTitle, postprocess_msg + '..', primary= 'left')
+        self.currentLine = TwoColumnsText (self.media.videoTitle, '< ' + postprocess_msg + '.. >  ', primary= 'right')
 
 
 
+
+def NewLineText (state: OManState, media: Media):
+    currentLine = ''
+
+    if   (state == OManState.parsing):
+        currentLine = ' ..'
+
+    elif (state == OManState.processinginput):
+        currentLine = TwoColumnsText ('  Processing URL:'  , media.url, primary= 'left', sep= ' ')
+
+    elif (state == OManState.selectstream):
+        currentLine = TwoColumnsText ('  Selecting Stream:', media.videoTitle, primary= 'left', sep = ' ')
+
+    elif (state == OManState.cleaningup):
+        currentLine = TwoColumnsText ('  Cleaning Up: '     , media.videoTitle, primary= 'left', sep= ' ') 
+
+    elif (state == OManState.finaloutput):
+        currentLine = TwoColumnsText (media.videoTitle     , media.GetErrorMessage (True), primary= 'left') 
+    
+    return currentLine
 
 
 def BuildDownloadBar(media: Media, stream: Stream, chunk: bytes, bytes_remaining: int) -> str:
@@ -84,11 +102,8 @@ def BuildDownloadBar(media: Media, stream: Stream, chunk: bytes, bytes_remaining
     suffix = '     {}%'.format (percentage)[-5:]
 
     bar = ProgressBar (stream.filesize - bytes_remaining, stream.filesize, prefix= prefix, suffix= suffix)
-
     return TwoColumnsText (media.videoTitle, bar, primary= 'right')
 
-
-#class DownloadBodyTextBuilder (BodyTextBuilder):
 
 
 

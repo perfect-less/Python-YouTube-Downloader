@@ -1,10 +1,8 @@
 from typing import List
 
-from pytd.pytdutils.downloader import DownloadObject, AudioDownloadObject, VideoDownloadObject
 from pytd.pytdutils.inputhandler import InputObject, InputToMedia
 from pytd.pytdutils.postprocess import postprocessor
 from pytd.pytdutils.media import Media
-from pytd.pytdutils import downloader
 from pytd.pytdutils import selector
 from pytd.pytdutils.pytdout.oman import OManState, OutputManager 
 
@@ -49,6 +47,19 @@ def run(inputObj: InputObject, outputObject: OutputManager):
             outputObject.report.finishedProcess (OManState.downloading, media)
 
         outputObject.report.finishedProcess (OManState.downloading, media)
+
+    # Cleanning Up
+    # outputObject.report.InitCleaningUp ()
+    # for media in mediaList:
+    #     pass
+    #     outputObject.report.beginProcess (OManState.cleaningup, media)
+
+    #     #
+    #     # Doing Cleanning up
+        
+
+    #     outputObject.report.finishedProcess (OManState.cleaningup, media)
+
 
     # Done 
     outputObject.report.InitFinalOutput ()

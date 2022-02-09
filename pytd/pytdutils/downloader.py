@@ -13,7 +13,7 @@ class DownloadObject:
 
     def Download(self):
 
-        pytube.request.default_range_size = int (min ( self.stream.filesize / 50, 9437184))
+        pytube.request.default_range_size = int (min ( self.stream.filesize / 100, 9437184))
         self.stream.download(output_path= self.download_path, filename= self.file_name)
 
     def DetermineFilename (self):

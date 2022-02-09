@@ -26,7 +26,7 @@ SUBHEADER_TEXT,
 """
  -> {ulr_num} URLs detected
 """,
-"""Status:
+"""\nStatus:
   parsing input...""",
 
 state = 'parsing'
@@ -41,8 +41,8 @@ SUBHEADER_TEXT,
 """
 {body_text}
 """,
-"""Status:
-  converting input [{inputnum}] to media...""",
+"""\nStatus:
+  converting input [{url}] to media...""",
 
 state = 'processinginput'
 
@@ -56,7 +56,7 @@ SUBHEADER_TEXT,
 """
 {body_text}
 """,
-"""Status:
+"""\nStatus:
   selecting stream for {ytitle}...""",
 
 state = 'selectstream'
@@ -71,10 +71,25 @@ SUBHEADER_TEXT,
 """
 {body_text}
 """,
-"""Status:
-  downloading {ndownloaded}/{ntotal} files...""",
+"""\nStatus:
+  downloading...""",
 
 state = 'downloading'
+
+)
+
+## Cleanning Up
+finaloutput_temp = OTemplate (
+    
+HEADER_TEXT, 
+SUBHEADER_TEXT,
+"""
+{body_text}
+""",
+"""\nStatus:
+  Cleaning Up Temporary Data...""",
+
+state = 'cleaningup'
 
 )
 
@@ -86,7 +101,7 @@ SUBHEADER_TEXT,
 """
 {body_text}
 """,
-"""Status:
+"""\nStatus:
   Download directory -> {downdir}""",
 
 state = 'finaloutput'

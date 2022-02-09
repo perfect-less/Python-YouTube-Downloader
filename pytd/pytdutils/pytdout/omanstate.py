@@ -5,4 +5,5 @@ class OManState (Enum):
     processinginput = 2
     selectstream = 3
     downloading = 4
-    finaloutput = 5
+    cleaningup = 5
+    finaloutput = 6

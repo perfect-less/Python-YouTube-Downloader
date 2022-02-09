@@ -1,3 +1,4 @@
+from distutils.log import error
 from statistics import mode
 from pytd.pytdutils.downloader import DownloadObject
 from typing import List
@@ -32,7 +33,10 @@ class Media:
     def SetFileName(self, fname: str):
         self.filename_path = self.downPath + '/' + fname
 
-    def GetErrorMessage (self) -> str:
+    def GetErrorMessage (self, msg: bool = False) -> str:
+        if (msg == True) and (self.errorMessage == ''):
+            return '   Succesfully Downloded   '
+
         return self.errorMessage
 
     def GetPostProcessTypeName (self) -> str:
