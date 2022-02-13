@@ -2,6 +2,7 @@ from distutils.log import error
 from statistics import mode
 from pytd.pytdutils.downloader import DownloadObject
 from typing import List
+import os
 
 # Media Class
 class Media:
@@ -32,7 +33,7 @@ class Media:
         self.videoTitle = title
 
     def SetFileName(self, fname: str):
-        self.filename_path = self.downPath + '/' + fname
+        self.filename_path = os.path.join (self.downPath, fname)
 
     def GetErrorMessage (self, msg: bool = False) -> str:
         if (msg == True) and (self.errorMessage == ''):

@@ -2,6 +2,7 @@
 from pytd.pytdutils.inputhandler import InputObject
 from pytd.pytdutils.pytdout.oman import OutputManager
 from pytd.src import pytdapp
+from pytd.version import __version__
 
 from ast import arg, parse
 import sys, os
@@ -20,7 +21,7 @@ def main ():
 
 
 	if args.version:
-		print ("Version: 0.0.0a")
+		print ("Version: {}".format(__version__))
 		exit () # exit program
 		
 	# Send input and output manager and start the program

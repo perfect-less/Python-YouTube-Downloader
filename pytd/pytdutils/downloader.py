@@ -1,13 +1,13 @@
-from asyncio import streams
 from pytube.streams import Stream
 
 import pytube.request
+import os
 
 class DownloadObject:
 
     def __init__(self, stream: Stream, download_path: str) -> None:
         self.stream = stream
-        self.download_path = download_path + '/'
+        self.download_path = download_path
         self.file_name = self.DetermineFilename ()
         self.file_path = self.DetermineFilepath (download_path)
 
@@ -21,7 +21,7 @@ class DownloadObject:
 
     def DetermineFilepath(self, download_path: str):
         new_filename = self.DetermineFilename()
-        return download_path + '/' + new_filename
+        return os.path.join (download_path, new_filename)
 
     def GetFilePath (self):
         return self.file_path
