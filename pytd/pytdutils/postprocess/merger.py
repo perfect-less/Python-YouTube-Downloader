@@ -22,6 +22,7 @@ def mergeAudioVideo (audioObject: AudioDownloadObject, videoObject: VideoDownloa
     combine_command = "ffmpeg -y -i '{}'  -r 30 -i '{}'  -filter:a aresample=async=1 -c:a flac -strict -2 -c:v copy '{}'".format(audio_path, video_path, media.filename_path)
 
     try:
-        subprocess.call (combine_command, shell= True, stdout= subprocess.DEVNULL, stderr= subprocess.STDOUT)
+        subprocess.check_call (combine_command, shell= True, stdout= subprocess.DEVNULL, stderr= subprocess.STDOUT)
     except:
+        media.errorMessage = 'Failed merging audio and video'
         media.AddGarbageList (media.filename_path)

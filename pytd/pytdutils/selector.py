@@ -11,17 +11,19 @@ def Select(media: Media, outObject: OutputManager) -> bool:
     media.SetVideoTitle (yt.title)
     media.SetFileName (yt.streams.get_highest_resolution().default_filename)
 
-    # Get Audio and Video Stream
-    audioStream = GetAudioStream (yt)
-    videoSteram = GetVideoStream (yt)
+    # Get video Stream and add to DownloadObject
+    if media.mode == "both" or media.mode == "video":
+        videoSteram = GetVideoStream (yt)
+        videoDownObj = VideoDownloadObject (videoSteram, media.downPath)
 
-    # Forming Download Object
-    audioDownObj = AudioDownloadObject (audioStream, media.downPath)
-    videoDownObj = VideoDownloadObject (videoSteram, media.downPath)
+        media.AddDownloadObject (videoDownObj)
+    
+    # Get audio Stream and add to DownloadObject
+    if media.mode == "both" or media.mode == "audio":
+        audioStream = GetAudioStream (yt)
+        audioDownObj = AudioDownloadObject (audioStream, media.downPath)
 
-    # Append to media 
-    media.AddDownloadObject (videoDownObj)
-    media.AddDownloadObject (audioDownObj)
+        media.AddDownloadObject (audioDownObj)
 
 
 
