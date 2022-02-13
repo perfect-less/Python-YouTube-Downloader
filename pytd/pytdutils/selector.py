@@ -2,6 +2,8 @@ from pytube import YouTube, Stream
 from pytd.pytdutils.media import Media
 from pytd.pytdutils.downloader import DownloadObject, AudioDownloadObject, VideoDownloadObject
 from pytd.pytdutils.pytdout.oman import OutputManager
+from pytd.settings.pytdsettings import GetConfig
+from pytd.settings.conkeys import CONFKEYS
 
 
 def Select(media: Media, outObject: OutputManager) -> bool:
@@ -31,16 +33,17 @@ def Select(media: Media, outObject: OutputManager) -> bool:
 def GetVideoStream(yt: YouTube) -> Stream:
     
     # Filter Stream
-    vStream = yt.streams.filter(adaptive=True, only_video=True, file_extension='mp4').order_by('resolution')
+    vStream = yt.streams.filter(adaptive=GetConfig(CONFKEYS.video_adaptive), only_video=True, file_extension=GetConfig(CONFKEYS.video_down_ext)).order_by('resolution')
 
     # Get The Highest Res and 128kbps audio
     highest_res = vStream[len(vStream) - 1].resolution
-    
-    if int( highest_res.removesuffix('p') ) > 1080:
-        highest_res = str(1080) + 'p' # We wouldn't download anything above 1080p
+    maximum_res = GetConfig(CONFKEYS.max_res)
+
+    if int( highest_res.removesuffix('p') ) > maximum_res:
+        highest_res = str(maximum_res) + 'p' # We wouldn't download anything above maximum resolution
 
     for stream in vStream:
-        if 'avc1' in stream.video_codec and stream.resolution == highest_res:
+        if GetConfig(CONFKEYS.video_codec) in stream.video_codec and stream.resolution == highest_res:
             video_itag = stream.itag
 
     return vStream.get_by_itag (video_itag)
@@ -48,7 +51,7 @@ def GetVideoStream(yt: YouTube) -> Stream:
 def GetAudioStream(yt: YouTube) -> Stream:
 
     # Filter Stream and Return the only one left
-    aStream = yt.streams.filter(only_audio=True, file_extension='mp4', abr='128kbps')
+    aStream = yt.streams.filter(only_audio=True, file_extension=GetConfig(CONFKEYS.audio_down_ext), abr=GetConfig(CONFKEYS.audio_bitrate))
     return aStream[0]
 
 

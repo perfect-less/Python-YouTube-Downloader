@@ -1,6 +1,8 @@
 import sys, os
 import subprocess
 from pytd.pytdutils.media import Media
+from pytd.settings.pytdsettings import GetConfig
+from pytd.settings.conkeys import CONFKEYS
 
 
 def ConvertAudio(media: Media):
@@ -9,16 +11,16 @@ def ConvertAudio(media: Media):
         # Later Throw Exception or some error handling shall be implemented here
         exit ()
 
-    mp4_file = media.downObjects[0].file_path
-    mp3_file = media.downObjects[0].file_path.removesuffix('.mp4') + '.mp3'
+    down_file = media.downObjects[0].file_path
+    save_file = media.downObjects[0].file_path.removesuffix('.'+GetConfig(CONFKEYS.audio_down_ext)) + '.{}'.format(GetConfig(CONFKEYS.audio_save_ext))
 
-    convert_cmd = "ffmpeg -i '{}' -b:a 128K -vn '{}'".format(mp4_file, mp3_file)
+    convert_cmd = "ffmpeg -i '{}' -b:a {}K -vn '{}'".format(down_file, GetConfig(CONFKEYS.audio_bitrate).removesuffix('kbps'), save_file)
     
     try:
         subprocess.check_call (convert_cmd, shell= True, stdout= subprocess.DEVNULL, stderr= subprocess.STDOUT)
         
     except:
-        media.errorMessage = 'Failed converting to mp3'
-        media.AddGarbageList (mp3_file)
+        media.errorMessage = 'Failed converting to {}'.format(GetConfig(CONFKEYS.audio_save_ext))
+        media.AddGarbageList (save_file)
 
 

@@ -1,4 +1,6 @@
 from pytube.streams import Stream
+from pytd.settings.pytdsettings import GetConfig
+from pytd.settings.conkeys import CONFKEYS
 
 import pytube.request
 import os
@@ -13,7 +15,7 @@ class DownloadObject:
 
     def Download(self):
 
-        pytube.request.default_range_size = int (min ( self.stream.filesize / 100, 9437184))
+        pytube.request.default_range_size = int (min ( self.stream.filesize / GetConfig(CONFKEYS.range_size_denum), 9437184))
         self.stream.download(output_path= self.download_path, filename= self.file_name)
 
     def DetermineFilename (self):
@@ -30,11 +32,11 @@ class DownloadObject:
 class AudioDownloadObject (DownloadObject):
 
     def DetermineFilename(self):
-        return self.stream.default_filename.removesuffix('.mp4') + '_audio.mp4'
+        return self.stream.default_filename.removesuffix('.'+GetConfig(CONFKEYS.audio_down_ext)) + '_audio.{}'.format(GetConfig(CONFKEYS.audio_down_ext))
 
 
 class VideoDownloadObject (DownloadObject):
 
     def DetermineFilename(self):
-        return self.stream.default_filename.removesuffix('.mp4') + '_video.mp4'
+        return self.stream.default_filename.removesuffix('.'+GetConfig(CONFKEYS.video_down_ext)) + '_video.{}'.format(GetConfig(CONFKEYS.video_down_ext))
         
