@@ -37,7 +37,7 @@ def GetVideoStream(yt: YouTube) -> Stream:
     highest_res = vStream[len(vStream) - 1].resolution
     
     if int( highest_res.removesuffix('p') ) > 1080:
-        highest_res = '1080p' # We wouldn't download anything above 1080p
+        highest_res = str(1080) + 'p' # We wouldn't download anything above 1080p
 
     for stream in vStream:
         if 'avc1' in stream.video_codec and stream.resolution == highest_res:

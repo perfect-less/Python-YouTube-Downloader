@@ -1,6 +1,7 @@
 # Entry points for this program
 from pytd.pytdutils.inputhandler import InputObject
 from pytd.pytdutils.pytdout.oman import OutputManager
+from pytd.settings import pytdsettings
 from pytd.src import pytdapp
 from pytd.version import __version__
 
@@ -10,7 +11,8 @@ import argparse
 
 def main ():
 
-	# Create Output Manager
+	# Initialize Config and Create Output Manager
+	pytdsettings.Init ()
 	outputObj = OutputManager ()
 
 	# Parsing Arguments
