@@ -26,6 +26,16 @@ def main ():
 		print ("Version: {}".format(__version__))
 		exit () # exit program
 		
+	elif args.config:
+		print (pytdsettings.GetConfig(str(args.config)))
+		exit()
+
+	elif args.set_config:
+		if len (args.set_config) >= 2 or args.set_config[0] == 'default':
+			print (pytdsettings.SetConfig (args.set_config[0], args.set_config[len (args.set_config) - 1]))
+
+		exit()
+		
 	# Send input and output manager and start the program
 	inputObj = InputObject (args.URLs, args.audio, args.video, bool (args.current_dir))
 	pytdapp.run (inputObj, outputObj)
@@ -52,6 +62,16 @@ def create_parser(parser: argparse.ArgumentParser):
 	# Version Flag
 	prs.add_argument('--version', action="store_true",
 					help = "Get version of pytd")
+
+	# Set Config Flag
+	prs.add_argument('--config', action="store",
+					help = """Get value of config options, example: `pytd --config max_res` to obtained maximum resolution which default to 1080.
+					Use `--config list` to list avalable options""")
+
+	# Set Config Flag
+	prs.add_argument('--set-config', action="extend", nargs='+', type=str,
+					help = """Change config options, example: `pytd --set-config max_res 720` to change maximum resolution to 720p.
+					Use `--set-config default` to reset config file.""")
 
 	# URLs Positional Arguments
 	prs.add_argument('URLs', nargs='*', type=str,
