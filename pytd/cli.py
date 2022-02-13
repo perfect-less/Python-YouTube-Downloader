@@ -21,7 +21,7 @@ def main ():
 
 	args = parser.parse_args()
 
-
+	# Checking Special Arguments
 	if args.version:
 		print ("Version: {}".format(__version__))
 		exit () # exit program
