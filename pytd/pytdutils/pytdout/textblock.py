@@ -11,20 +11,9 @@ class TextBlock:
         self.text = new_text
         self.lines = self.countLines ()
 
-    def delete (self):
-
-        # Delete Lines one by one
-        for li in range (self.lines):
-            pointerMoveUp ()
-            clearLine ()
-
 
     def write (self):
         print (self.text)
-
-    def update (self):
-        self.delete ()
-        self.write ()
 
     def countLines(self):
         return self.text.count ('\n') + 1

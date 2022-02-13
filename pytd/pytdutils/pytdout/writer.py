@@ -49,13 +49,6 @@ def clearScreen ():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
-def jumpOver (block: TextBlock):
-    """ Jump UP over the block """
-    pointerMoveUp (block.lines)
-
-def skipOver (block: TextBlock):
-    """ Skip Down over the block """
-    pointerMoveDown (block.lines)
 
 
 

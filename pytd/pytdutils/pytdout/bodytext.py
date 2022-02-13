@@ -28,7 +28,7 @@ class BodyTextBuilder:
     def finalizeLine (self):
 
         if self.state != OManState.finaloutput:
-            self.currentLine = TwoColumnsText (self.media.videoTitle, '===DONE===', primary= 'right')
+            self.currentLine = TwoColumnsText ('[✓]', self.media.videoTitle, primary= 'left', sep= '. ')
 
         # Error Check
         if (self.media.GetErrorMessage () != '' ):
@@ -63,7 +63,7 @@ class BodyTextBuilder:
             return
         
         postprocess_msg = self.media.GetPostProcessTypeName()
-        self.currentLine = TwoColumnsText (self.media.videoTitle, '< ' + postprocess_msg + '.. >  ', primary= 'right')
+        self.currentLine = TwoColumnsText (self.media.videoTitle, ' [' + postprocess_msg + ']  ', primary= 'right')
 
 
 
@@ -75,16 +75,16 @@ def NewLineText (state: OManState, media: Media):
         currentLine = ' ..'
 
     elif (state == OManState.processinginput):
-        currentLine = TwoColumnsText ('\n↳  Processing URL:'  , media.url, primary= 'left', sep= ' ')
+        currentLine = TwoColumnsText ('\n>>Processing URL:'  , media.url, primary= 'left', sep= ' ')
 
     elif (state == OManState.selectstream):
-        currentLine = TwoColumnsText ('\n↳  Selecting Stream:', media.videoTitle, primary= 'left', sep = ' ')
+        currentLine = TwoColumnsText ('\n>>Selecting Stream:', media.videoTitle, primary= 'left', sep = ' ')
 
     elif (state == OManState.cleaningup):
-        currentLine = TwoColumnsText ('\n↳  Cleaning Up:'     , media.videoTitle, primary= 'left', sep= ' ') 
+        currentLine = TwoColumnsText ('\n>>Cleaning Up:'     , media.videoTitle, primary= 'left', sep= ' ') 
 
     elif (state == OManState.finaloutput):
-        currentLine = TwoColumnsText (media.videoTitle , media.GetErrorMessage (True), primary= 'left') 
+        currentLine = TwoColumnsText (media.videoTitle , media.GetErrorMessage (True), primary= 'right') 
     
     return currentLine
 
