@@ -1,18 +1,17 @@
 # Entry points for this program
+import argparse
+
 from pytd.pytdutils.inputhandler import InputObject
 from pytd.pytdutils.pytdout.oman import OutputManager
 from pytd.settings import pytdsettings
 from pytd.src import pytdapp
 from pytd.version import __version__
 
-from ast import arg, parse
-import sys, os
-import argparse
 
 def main ():
 
 	# Initialize Config and Create Output Manager
-	pytdsettings.Init ()
+	pytdsettings.Init()
 	outputObj = OutputManager ()
 
 	# Parsing Arguments
@@ -23,9 +22,9 @@ def main ():
 
 	# Checking Special Arguments
 	if args.version:
-		print ("Version: {}".format(__version__))
+		print ("Version: ", __version__)
 		exit () # exit program
-		
+
 	elif args.config:
 		print (pytdsettings.GetConfig(str(args.config)))
 		exit()
@@ -35,7 +34,7 @@ def main ():
 			print (pytdsettings.SetConfig (args.set_config[0], args.set_config[len (args.set_config) - 1]))
 
 		exit()
-		
+
 	# Send input and output manager and start the program
 	inputObj = InputObject (args.URLs, args.audio, args.video, bool (args.current_dir))
 	pytdapp.run (inputObj, outputObj)
@@ -56,7 +55,7 @@ def create_parser(parser: argparse.ArgumentParser):
 
 	# Current Directory Flag
 	prs.add_argument('-d', '--current-dir', action="store_true",
-					help = """Set flag to download to current working directory. 
+					help = """Set flag to download to current working directory.
 					When flag aren't set, files will be saved to default download dir""")
 
 	# Version Flag
@@ -65,12 +64,14 @@ def create_parser(parser: argparse.ArgumentParser):
 
 	# Set Config Flag
 	prs.add_argument('--config', action="store",
-					help = """Get value of config options, example: `pytd --config max_res` to obtained maximum resolution which default to 1080.
+					help = """Get value of config options,
+					example: `pytd --config max_res` to obtained maximum resolution which default to 1080.
 					Use `--config list` to list avalable options""")
 
 	# Set Config Flag
 	prs.add_argument('--set-config', action="extend", nargs='+', type=str,
-					help = """Change config options, example: `pytd --set-config max_res 720` to change maximum resolution to 720p.
+					help = """Change config options,
+					example: `pytd --set-config max_res 720` to change maximum resolution to 720p.
 					Use `--set-config default` to reset config file.""")
 
 	# URLs Positional Arguments
