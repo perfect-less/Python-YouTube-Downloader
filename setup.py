@@ -53,5 +53,5 @@ setup(
     description=("Python application for downloading YouTube Videos."),
     long_description_content_type="text/markdown",
     long_description=long_description,
-    python_requires=">=3.6",
+    python_requires=">=3.8",
 )
