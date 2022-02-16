@@ -39,7 +39,9 @@ setup(
         "Topic :: Video",
         "Topic :: Terminals",
     ],
-    packages=['pytd',],
+    packages=[
+        'pytd',
+    ],
     install_requires=[
         'pytube',
     ],
