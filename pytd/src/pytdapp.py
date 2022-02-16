@@ -1,4 +1,3 @@
-import imp
 from typing import List
 
 from pytd.pytdutils.inputhandler import InputObject, InputToMedia

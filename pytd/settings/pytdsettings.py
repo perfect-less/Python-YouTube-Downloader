@@ -1,6 +1,7 @@
-from distutils.command.config import config
-from pytd.settings import inimaker, conkeys
 import os, sys, configparser
+from distutils.command.config import config
+
+from pytd.settings import inimaker, conkeys
 
 STRING_KEYS = ['video_codec', 'video_adaptive', 'video_down_ext', 'audio_down_ext', 'video_save_ext',
                    'audio_save_ext',  'audio_bitrate', 'default_file_path']
@@ -12,7 +13,21 @@ INTEGER_KEYS= ['max_res', 'range_size_denum']
 
 
 def Init():
+    """Initialize configuration feature
+    Call this to make sure config file exists and download folder also exists"""
+
+    # Make sure config file exists, and if not create a default one
     inimaker.CreateConfigFile()
+
+    # Make sure download directory exists, make one if not
+    _MakeDownloadDirectory()
+
+
+def _MakeDownloadDirectory():
+    filedir = GetDefaultFilePath ()
+
+    if not os.path.exists (filedir):
+        os.mkdir (filedir)
 
 def GetDefaultFilePath():
     return GetConfig (conkeys.CONFKEYS.default_file_path)

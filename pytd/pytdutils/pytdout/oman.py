@@ -1,4 +1,7 @@
 from typing import List
+
+from pytube import Stream
+
 from pytd.pytdutils.pytdout.bodytext import BodyTextBuilder
 from pytd.pytdutils.pytdout.statustext import StatusTextBuilder
 from pytd.pytdutils.pytdout.textblock import BodyBlock, HeaderBlock, TextBlock
@@ -6,7 +9,6 @@ from pytd.pytdutils.pytdout.omanstate import OManState
 from pytd.pytdutils.pytdout.writer import Canvas
 from pytd.pytdutils.pytdout import templates
 from pytd.pytdutils.media import Media
-from pytube import Stream
 
 
 
@@ -20,9 +22,9 @@ class OutputManager:
         self.status = BodyBlock ("")
 
         self.state = state
-        self.report = Report (self)
+        self.report = _Report (self)
         self.canvas = self.CreateCanvas ()
-        self.o_template = ChooseTemplate (self.state)
+        self.o_template = _ChooseTemplate (self.state)
 
         self.bodyTextBuilder: BodyTextBuilder = BodyTextBuilder (self.state, self.o_template)
         self.statusTextBuilder: StatusTextBuilder = StatusTextBuilder (self.state, self.o_template)
@@ -46,7 +48,7 @@ class OutputManager:
 
     def ChangeState (self, new_state: OManState):
         self.state = new_state
-        self.o_template = ChooseTemplate (self.state)
+        self.o_template = _ChooseTemplate (self.state)
 
         del self.bodyTextBuilder
         self.bodyTextBuilder = BodyTextBuilder (self.state, self.o_template)
@@ -65,8 +67,8 @@ class OutputManager:
 
     def applyTemplate (self):
 
-        self.header.text = self.o_template.header_text
-        self.subheader.text = self.o_template.subheader_text
+        self.header.text = self.o_template.getHeaderText ()
+        self.subheader.text = self.o_template.getSubheaderText ()
         self.body.text = self.bodyTextBuilder.build ()
         self.status.text = self.statusTextBuilder.build ()
 
@@ -96,7 +98,7 @@ class OutputManager:
 
 
 
-class Report:
+class _Report:
 
     def __init__(self, oman: OutputManager):
         self.oman = oman
@@ -132,7 +134,7 @@ class Report:
 
     
 
-def ChooseTemplate (state: OManState):
+def _ChooseTemplate (state: OManState):
     
     selectedTemplate: templates.OTemplate = templates.parsing_temp
 

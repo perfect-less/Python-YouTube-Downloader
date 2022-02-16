@@ -1,1 +1,0 @@
-from pytd import cli

@@ -58,7 +58,7 @@ def ProcessingInputText(template: OTemplate, media: Media):
 
 
 def SelectStreamText(template: OTemplate, media: Media):
-    return template.status_text.format (ytitle= media.videoTitle)
+    return template.status_text.format (ytitle= media.url)
 
 
 def DownloadingText(template: OTemplate, media: Media = None):

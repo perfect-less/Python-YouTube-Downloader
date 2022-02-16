@@ -1,3 +1,6 @@
+from distutils.util import split_quoted
+from os import get_terminal_size
+
 from pytd.version import __version__
 
 
@@ -14,9 +17,28 @@ class OTemplate:
 
         self.state = state
 
+    def getHeaderText(self):
+        """Obtain Header Text as string"""
 
-HEADER_TEXT     = """pytd - {version}""".format (version = __version__)
-SUBHEADER_TEXT  = """Simple YouTube Downloader made using pytube, pytd [-h|--help] for more information \n"""
+        terminal_columns = get_terminal_size().columns
+        splited_text = self.header_text.split ('\t')
+        splited_text[1] = splited_text[1].rjust(max( # Find the width of the right side
+                                                    terminal_columns-len(splited_text [0]),
+                                                    0
+                                                ) 
+                                            )
+        
+        return ''.join (splited_text)
+
+    def getSubheaderText(self):
+        """Obtain Subheader Text as string"""
+
+        terminal_columns = get_terminal_size().columns        
+        return self.subheader_text.rjust (terminal_columns) + '\n'
+
+
+HEADER_TEXT     = """pytd {version} \t Simple YouTube Downloader made using pytube""".format (version = __version__)
+SUBHEADER_TEXT  = """`pytd [-h| --help]` for more information"""
 
 ## Parsing
 parsing_temp = OTemplate (

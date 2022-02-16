@@ -44,6 +44,8 @@ def TruncateColumn(column: str, truncated_length: int):
         while (CalculateWidth (column) > (truncated_length - 3)):
             column = column[:(len (column) - 1)] 
 
+        suffix = suffix + '.' * (truncated_length - 3 - CalculateWidth (column)) # Compensate if truncated are too short
+
     return column + suffix
 
 

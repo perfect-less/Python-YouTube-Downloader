@@ -22,7 +22,7 @@ class BodyTextBuilder:
     def beginLine (self, media: Media):
 
         self.media = media
-        self.currentLine = NewLineText (self.state , self.media)
+        self.currentLine = _NewLineText (self.state , self.media)
         
 
     def finalizeLine (self):
@@ -32,7 +32,8 @@ class BodyTextBuilder:
 
         # Error Check
         if (self.media.GetErrorMessage () != '' ):
-            self.currentLine = TwoColumnsText (self.media.GetErrorMessage (), self.media.videoTitle, primary= 'left')
+            video_identifier = self.media.videoTitle if self.media.videoTitle else self.media.url
+            self.currentLine = TwoColumnsText (video_identifier , self.media.GetErrorMessage (True), primary= 'right', sep= '| ') 
             # Set current line to <error message> - <video title>
 
         self.lines.append (self.currentLine)
@@ -55,7 +56,7 @@ class BodyTextBuilder:
         if (self.state != OManState.downloading):
             return
         
-        self.currentLine = BuildDownloadBar (self.media, stream, chunk, bytes_remaining)
+        self.currentLine = _BuildDownloadBar (self.media, stream, chunk, bytes_remaining)
 
     def beginPostProcess (self):
 
@@ -68,7 +69,7 @@ class BodyTextBuilder:
 
 
 
-def NewLineText (state: OManState, media: Media):
+def _NewLineText (state: OManState, media: Media):
     currentLine = ''
 
     if   (state == OManState.parsing):
@@ -89,7 +90,7 @@ def NewLineText (state: OManState, media: Media):
     return currentLine
 
 
-def BuildDownloadBar(media: Media, stream: Stream, chunk: bytes, bytes_remaining: int) -> str:
+def _BuildDownloadBar(media: Media, stream: Stream, chunk: bytes, bytes_remaining: int) -> str:
 
     total_down_num = len (media.downObjects)
     current_proc_num = min (total_down_num, 2) if (stream.type == 'audio') else 1
