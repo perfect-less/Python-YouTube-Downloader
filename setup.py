@@ -44,6 +44,8 @@ setup(
         'pytd.src',
         'pytd.settings',
         'pytd.pytdutils',
+        'pytd.pytdutils.postprocess',
+        'pytd.pytdutils.pytdout',
     ],
     install_requires=[
         'pytube',
