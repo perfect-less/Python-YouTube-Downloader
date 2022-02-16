@@ -41,6 +41,9 @@ setup(
     ],
     packages=[
         'pytd',
+        'pytd.src',
+        'pytd.settings',
+        'pytd.pytdutils',
     ],
     install_requires=[
         'pytube',
