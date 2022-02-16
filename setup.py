@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""This module contains setup instructions for pytd."""
+"""This file contains setup instructions for pytd package."""
 import codecs
 import os
 
@@ -19,7 +19,6 @@ setup(
     version=__version__,
     author="Ikhwan S. H",
     author_email="ikhwansyatricha@gmail.com",
-    packages=["pytube", "pytube.contrib"],
     package_data={"": ["LICENSE"],},
     url="https://github.com/perfect-less/Python-YouTube-Downloader",
     license="The Unlicense (Unlicense)",
@@ -40,8 +39,7 @@ setup(
         "Topic :: Video",
         "Topic :: Terminals",
     ],
-    package_dir={'': 'pytd'},
-    packages=setuptools.find_packages(where='pytd'),
+    packages=['pytd',],
     install_requires=[
         'pytube',
     ],
