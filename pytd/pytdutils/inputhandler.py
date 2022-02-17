@@ -52,7 +52,7 @@ def InputToMedia(inputObj: InputObject, outputObject: OutputManager) -> List[Med
             new_media.SetVideoTitle (YouTube(url).title)
             
         except:
-            new_media.errorMessage = "Can't Process URL"
+            new_media.errorMessage += "Can't Process URL; "
 
         medias.append (new_media)
         outputObject.report.finishedProcess (OManState.processinginput, new_media)

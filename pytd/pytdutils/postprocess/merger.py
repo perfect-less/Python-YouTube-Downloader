@@ -24,5 +24,5 @@ def mergeAudioVideo (audioObject: AudioDownloadObject, videoObject: VideoDownloa
     try:
         subprocess.check_call (combine_command, shell= True, stdout= subprocess.DEVNULL, stderr= subprocess.STDOUT)
     except:
-        media.errorMessage = 'Failed merging audio and video'
+        media.errorMessage += 'Failed merging audio and video; '
         media.AddGarbageList (media.filename_path)

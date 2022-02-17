@@ -11,9 +11,12 @@ def CleanGarbage (outputObject: OutputManager, mediaList: List[Media]):
         outputObject.report.beginProcess (OManState.cleaningup, media)
         garbageList = media.GetGarbageList ()
         
+        # Delete Garbage
         for garbage_path in garbageList:
 
             DeleteFile (garbage_path)
+
+        # 
 
         outputObject.report.finishedProcess (OManState.cleaningup, media)
 
