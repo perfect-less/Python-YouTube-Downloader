@@ -1,4 +1,4 @@
-# Python YouTube Downloader - \<`pytd`>
+# Python YouTube Downloader - `pytd`
 
 This program is a python packages with command line interface to download the highest available quality of non progressive YouTube video up to specified maximum resolutions (by default is 1080p). This program was made using [Pytube](https://pytube.io/en/latest/) and also [ffmpeg](https://www.ffmpeg.org/) to combine and convert media files.
 

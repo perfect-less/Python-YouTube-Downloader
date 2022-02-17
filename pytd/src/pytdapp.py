@@ -21,7 +21,8 @@ def run(inputObj: InputObject, outputObject: OutputManager):
 
         try:
             selector.Select (media, outputObject)
-        except:
+        except Exception as e:
+            media.errorMessage = 'Stream Selection Failed, ' + e
             activeMediaList.remove (media)
         finally:
             outputObject.report.finishedProcess (OManState.selectstream, media)
@@ -34,7 +35,8 @@ def run(inputObj: InputObject, outputObject: OutputManager):
 
         try:
             media.DownloadMedia ()
-        except:
+        except Exception as e:
+            media.errorMessage = 'Download Failed, ' + e
             activeMediaList.remove (media)
             outputObject.report.finishedProcess (OManState.downloading, media)
             continue
@@ -43,7 +45,8 @@ def run(inputObj: InputObject, outputObject: OutputManager):
         outputObject.beginPostProcess ()
         try:
             postprocessor.Post (media)
-        except:
+        except Exception as e:
+            media.errorMessage = 'Post-Process Failed, ' + e
             activeMediaList.remove (media)
             outputObject.report.finishedProcess (OManState.downloading, media)
 
