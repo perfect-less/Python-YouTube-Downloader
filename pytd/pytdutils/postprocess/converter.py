@@ -19,8 +19,8 @@ def ConvertAudio(media: Media):
     try:
         subprocess.check_call (convert_cmd, shell= True, stdout= subprocess.DEVNULL, stderr= subprocess.STDOUT)
         
-    except:
-        media.errorMessage += 'Failed converting to {}'.format(GetConfig(CONFKEYS.audio_save_ext))
+    except Exception as e:
+        media.errorMessage += 'Failed converting to {}; {}'.format(GetConfig(CONFKEYS.audio_save_ext), ''.join(e.args))
         media.AddGarbageList (save_file)
 
 
