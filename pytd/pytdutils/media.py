@@ -7,9 +7,19 @@ import os
 # Media Class
 class Media:
 
-    def __init__(self, url: str, mode: str = "both", download_path: str = "~/Videos") -> None:
+    def __init__(
+
+            self, 
+            url: str, 
+            mode: str = "both", 
+            keep: bool = False, 
+            download_path: str = "~/Videos"
+
+    ) -> None:
+
         self.url = url
         self.mode = mode
+        self.keep = keep
 
         self.downObjects: List[DownloadObject] = list ()
         self.downPath: str = download_path
@@ -49,6 +59,10 @@ class Media:
             return 'Converting'
 
     def AddGarbageList (self, new_garbage_file: str):
+
+        if self.keep == True: 
+            return
+        # Add Garbage List if keep is false
         self.garbageList.append (new_garbage_file)
 
     def RemoveFromGarbageList (self, path_to_file: str):

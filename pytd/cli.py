@@ -36,7 +36,13 @@ def main ():
 		exit()
 
 	# Send input and output manager and start the program
-	inputObj = InputObject (args.URLs, args.audio, args.video, bool (args.current_dir))
+	inputObj = InputObject (
+                        args.URLs,
+                        args.audio,
+                        args.video,
+                        bool (args.keep),
+                        bool (args.current_dir)
+    )
 	pytdapp.run (inputObj, outputObj)
 
 
@@ -57,6 +63,11 @@ def create_parser(parser: argparse.ArgumentParser):
 	prs.add_argument('-d', '--current-dir', action="store_true",
 					help = """Set flag to download to current working directory.
 					When flag aren't set, files will be saved to default download dir""")
+
+    # Keep Files Flag
+	prs.add_argument('-k', '--keep', action="store_true",
+					help = """Set flag to keep temporary files.
+					By default pytd will delete temp files before exiting""")
 
 	# Version Flag
 	prs.add_argument('--version', action="store_true",

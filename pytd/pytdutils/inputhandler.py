@@ -13,10 +13,18 @@ import os
 # Input Object Classs, used to stored Input Data
 class InputObject:
 
-    def __init__(self, URLs: List[str], audio_arg, video_arg, use_cwd = False, ) -> None:
+    def __init__(
+            self, 
+            URLs: List[str], 
+            audio_arg, 
+            video_arg, 
+            keep = False, 
+            use_cwd = False, 
+    ) -> None:
         
         self.URLs = URLs
         self.mode = self.GetMode (audio_arg, video_arg)
+        self.keep = keep
 
         self.file_path = self.GetFilepath(use_cwd)
         
@@ -45,7 +53,7 @@ def InputToMedia(inputObj: InputObject, outputObject: OutputManager) -> List[Med
 
     for url in inputObj.URLs:
         
-        new_media = Media (url, inputObj.mode, inputObj.file_path)
+        new_media = Media (url, inputObj.mode, inputObj.keep, inputObj.file_path)
         outputObject.report.beginProcess (OManState.processinginput, new_media)
 
         try:

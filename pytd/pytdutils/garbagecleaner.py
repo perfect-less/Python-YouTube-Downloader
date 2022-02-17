@@ -13,7 +13,7 @@ def CleanGarbage (outputObject: OutputManager, mediaList: List[Media]):
         
         # Delete Garbage
         for garbage_path in garbageList:
-
+            
             DeleteFile (garbage_path)
 
         # 
