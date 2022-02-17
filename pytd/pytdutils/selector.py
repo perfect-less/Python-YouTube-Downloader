@@ -39,7 +39,7 @@ def GetVideoStream(yt: YouTube) -> Stream:
     highest_res = vStream[len(vStream) - 1].resolution
     maximum_res = GetConfig(CONFKEYS.max_res)
 
-    if int( highest_res.removesuffix('p') ) > maximum_res:
+    if int( highest_res [:-len('p')] ) > maximum_res:
         highest_res = str(maximum_res) + 'p' # We wouldn't download anything above maximum resolution
 
     for stream in vStream:

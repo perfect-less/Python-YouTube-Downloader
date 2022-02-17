@@ -27,7 +27,7 @@ aStream = yt.streams.filter(only_audio=True, file_extension='mp4', abr='128kbps'
 
 # Get The Highest Res
 highest_res = vStream[len(vStream) - 1].resolution
-if int( highest_res.removesuffix('p') ) > 1080:
+if int( highest_res [:-len('p')] ) > 1080:
     highest_res = '1080p' # We wouldn't download anything above 1080p
 
 for stream in vStream:

@@ -32,11 +32,12 @@ class DownloadObject:
 class AudioDownloadObject (DownloadObject):
 
     def DetermineFilename(self):
-        return self.stream.default_filename.removesuffix('.'+GetConfig(CONFKEYS.audio_down_ext)) + '_audio.{}'.format(GetConfig(CONFKEYS.audio_down_ext))
-
+        return self.stream.default_filename [:-len('.'+GetConfig(CONFKEYS.audio_down_ext))] + '_audio.{}'.format(GetConfig(CONFKEYS.audio_down_ext))
+        # Remove suffix, not using .removesuffix to support python 3.8
 
 class VideoDownloadObject (DownloadObject):
 
     def DetermineFilename(self):
-        return self.stream.default_filename.removesuffix('.'+GetConfig(CONFKEYS.video_down_ext)) + '_video.{}'.format(GetConfig(CONFKEYS.video_down_ext))
+        return self.stream.default_filename [:-len('.'+GetConfig(CONFKEYS.video_down_ext))] + '_video.{}'.format(GetConfig(CONFKEYS.video_down_ext))
+        # Remove suffix, like line 36
         

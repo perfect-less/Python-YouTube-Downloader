@@ -12,9 +12,9 @@ def ConvertAudio(media: Media):
         exit ()
 
     down_file = media.downObjects[0].file_path
-    save_file = media.downObjects[0].file_path.removesuffix('.'+GetConfig(CONFKEYS.audio_down_ext)) + '.{}'.format(GetConfig(CONFKEYS.audio_save_ext))
+    save_file = media.downObjects[0].file_path [:-len('.'+GetConfig(CONFKEYS.audio_down_ext))] + '.{}'.format(GetConfig(CONFKEYS.audio_save_ext))
 
-    convert_cmd = "ffmpeg -i '{}' -b:a {}K -vn '{}'".format(down_file, GetConfig(CONFKEYS.audio_bitrate).removesuffix('kbps'), save_file)
+    convert_cmd = "ffmpeg -i '{}' -b:a {}K -vn '{}'".format(down_file, GetConfig(CONFKEYS.audio_bitrate) [:-len('kbps')], save_file)
     
     try:
         subprocess.check_call (convert_cmd, shell= True, stdout= subprocess.DEVNULL, stderr= subprocess.STDOUT)
