@@ -1,6 +1,7 @@
 @echo off
 
-echo "Wellcome to pytd installer for windows"; echo ""
+echo Wellcome to pytd installer for windows
+echo.
 
 python --version
 
