@@ -19,7 +19,7 @@ def is_python_exist():
     """Check whether python installed is python 3.8 or above, return 1 if not"""
 
     try:
-        call_result = subprocess.run (["python3", "--version"], capture_output=True)
+        call_result = subprocess.run (["python", "--version"], capture_output=True)
         re_results = re.match (r"^python 3\.([0-9]*)\.", call_result.stdout.decode("UTF-8").lower())
 
         python_subversion = int (re_results.group(1))
@@ -35,7 +35,7 @@ def is_pip_exist():
     """Check whether pip is installed or not, return 1 if not"""
 
     try:
-        call_result = subprocess.check_output (["pip --version"], shell=True, stderr=subprocess.STDOUT)
+        call_result = subprocess.check_output ("pip --version", shell=True, stderr=subprocess.STDOUT)
     except:
         return 1
 
@@ -46,7 +46,7 @@ def is_ffmpeg_exist():
     """Check whether ffmpeg is installed or not, return 1 if not"""
 
     try:
-        call_result = subprocess.check_output (["ffmpeg -version"], shell=True)
+        call_result = subprocess.check_output ("ffmpeg -version", shell=True)
     except:
         return 1
 
