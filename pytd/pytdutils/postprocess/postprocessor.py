@@ -11,4 +11,5 @@ def Post(media: Media):
         ConvertAudio (media)
         
     elif media.mode == 'video':
-        pass
+        media.RemoveFromGarbageList(media.downObjects[0].file_path)
+        # Do Nothing to downloaded video file
