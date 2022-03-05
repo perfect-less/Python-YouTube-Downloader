@@ -102,7 +102,9 @@ or
 $ pip install git+https://github.com/perfect-less/Python-YouTube-Downloader
 ```
 
-## For Windows
+## For Windows (Manual Installation)
+    
+    NOTE: To make installation in windows easier, I did make batch installation scripts which you could download from the release section of this repo. Follow instructions on "For Windwows (Installation with Scripts)."
 
 The first thing to do for windows installation is to install python and pip (please follow the guidance at https://www.python.org/). But since windows didn't come pre-installed with `ffmpeg`. We need to install it ourself and then add it to our PATH variables.
 
@@ -122,9 +124,21 @@ The first thing to do for windows installation is to install python and pip (ple
 
 We also need git to install the program which can be downloaded from https://git-scm.com/
 
-With all pre-requisites met, we can install **pytd** with the following command:
+With all prerequisites met, we can install **pytd** with the following command:
 ```bash
 $ python -m pip install git+https://github.com/perfect-less/Python-YouTube-Downloader
 ```
 
+## For Windows (Installation with Scripts)
+
+    You still need to install python and pip first for this install process to work.
+
+Please download the installation scrips on the release section of this repository. After you've downloaded the installation scrips, please follow these steps:
+
+1. Extract the zip file into your computer
+2. Enter the `pytd install` folder
+3. Run `PYTD_INSTALLER.bat`, you can run it in cmd or just double click on it.
+4. Follow the instructions on the scrips until it finished
+
+To uninstall **`pytd`** you have to run the `PYTD_UNINSTALL.bat` as **Administrator**.
 
