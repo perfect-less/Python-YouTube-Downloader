@@ -9,7 +9,8 @@ from pytd.settings.conkeys import CONFKEYS
 def Select(media: Media, outObject: OutputManager) -> bool:
 
     # Geting YouTube object and Setting media Critical Media Value
-    yt = YouTube (media.url, outObject.onProcessFunc, outObject.onCompleteFunc)
+    yt = YouTube (media.url, outObject.onProcessFunc, outObject.onCompleteFunc, 
+                 use_oauth=True, allow_oauth_cache=True)
     media.SetVideoTitle (yt.title)
     media.SetFileName (yt.streams.get_highest_resolution().default_filename)
 
